@@ -2,6 +2,8 @@ import { useEffect } from "react"
 import { Outlet, useLocation, useMatch } from "react-router"
 
 import { SiteHeader } from "@/components/site-header"
+import { getEntry, getSection } from "@/content"
+import { site } from "@/content/site"
 import { DetailPane } from "@/layouts/detail-pane"
 import { cn } from "@/lib/utils"
 
@@ -12,8 +14,26 @@ import { cn } from "@/lib/utils"
  * is relevant fills the page.
  */
 export function SiteLayout() {
-  const isDetailOpen = useMatch("/:sectionId/:slug") !== null
+  const detailMatch = useMatch("/:sectionId/:slug")
+  const sectionMatch = useMatch("/:sectionId")
+  const isDetailOpen = detailMatch !== null
   const { pathname } = useLocation()
+
+  // Assigned directly rather than via a rendered <title>, which React 19 would
+  // hoist alongside the static one in index.html instead of replacing it.
+  useEffect(() => {
+    const sectionId = (detailMatch ?? sectionMatch)?.params.sectionId
+    const slug = detailMatch?.params.slug
+    const page = slug
+      ? (getEntry(sectionId, slug)?.title ?? "Not Found")
+      : sectionId
+        ? (getSection(sectionId)?.label ?? "Not Found")
+        : pathname === "/"
+          ? undefined
+          : "Not Found"
+
+    document.title = page ? `${site.name} - ${page}` : site.name
+  }, [detailMatch, sectionMatch, pathname])
 
   // Mobile scrolls the window; desktop panes scroll themselves, so this is a
   // no-op there.
