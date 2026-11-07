@@ -28,7 +28,7 @@ export function DetailPane() {
           &larr; Home
         </Link>
         <span className="hidden tracking-wider text-muted-foreground uppercase lg:inline">
-          {section ? `${section.label} Details` : "Not Found"}
+          {section ? `${section.label}` : "Not Found"}
         </span>
         {/* A real navigation to the parent section, not history.back(), so it
             still works when the detail was opened from a cold deep link. */}

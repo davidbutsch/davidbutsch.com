@@ -1,4 +1,4 @@
-export type SectionId = "experience" | "education" | "projects"
+export type SectionId = "experience" | "education" | "projects" | "blog"
 
 export type EntryLink = {
   label: string

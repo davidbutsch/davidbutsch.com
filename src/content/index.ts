@@ -15,6 +15,7 @@ const files: Record<SectionId, Record<string, EntryModule>> = {
   }),
   education: import.meta.glob<EntryModule>("./education/*.md", { eager: true }),
   projects: import.meta.glob<EntryModule>("./projects/*.md", { eager: true }),
+  blog: import.meta.glob<EntryModule>("./blog/*.md", { eager: true }),
 }
 
 export const sections: Section[] = sectionMeta.map((meta) => ({
